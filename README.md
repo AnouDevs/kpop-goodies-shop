@@ -1,6 +1,6 @@
 # kpop-goodies-shop
 
-Kpop/anime goodies shop (photocards, albums, merch ...) — solo project built at the end of a fullstack bootcamp.
+Kpop goodies shop (photocards, albums, merch ...) — solo project built at the end of a fullstack bootcamp.
 
 ## Features
 
