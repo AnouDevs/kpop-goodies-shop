@@ -15,6 +15,13 @@
       "when": 1786458316390,
       "tag": "0001_gorgeous_devos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786458542840,
+      "tag": "0002_married_crusher_hogan",
+      "breakpoints": true
     }
   ]
 }
