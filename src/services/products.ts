@@ -14,3 +14,7 @@ export async function createProduct(data: {
   const [newProduct] = await db.insert(products).values(data).returning();
   return newProduct;
 }
+
+export async function getProducts() {
+  return await db.select().from(products)
+}
