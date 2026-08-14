@@ -58,3 +58,14 @@ export async function cancelOrder(orderId: string) {
   }
   throw new Error("you cannot cancel this order");
 }
+
+export async function shipOrder(
+  orderId: string,
+  trackingNumber: string,
+) {
+  await requireAdmin();
+  return await db
+    .update(orders)
+    .set({ status: "expedited", trackingNumber })
+    .where(eq(orders.orderId, orderId));
+}
