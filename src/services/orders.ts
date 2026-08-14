@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { orderItems, orders } from "@/db/schema";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser, requireAdmin } from "@/lib/auth-utils";
 import { eq } from "drizzle-orm";
 
 export async function createOrder(
@@ -27,10 +27,17 @@ export async function createOrder(
 }
 
 export async function getMyOrders() {
-    const userConnected = await getCurrentUser()
-    if(!userConnected) {
-        throw new Error("you are not allowed to get your order")
-    }
-        return await db.select().from(orders).where(eq(orders.userId, userConnected.id))
+  const userConnected = await getCurrentUser();
+  if (!userConnected) {
+    throw new Error("you are not allowed to get your order");
+  }
+  return await db
+    .select()
+    .from(orders)
+    .where(eq(orders.userId, userConnected.id));
+}
 
+export async function getAllOrders() {
+  await requireAdmin();
+  return await db.select().from(orders);
 }
