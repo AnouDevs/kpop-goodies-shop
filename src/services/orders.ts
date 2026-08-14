@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { orderItems, orders } from "@/db/schema";
 import { getCurrentUser } from "@/lib/auth-utils";
+import { eq } from "drizzle-orm";
 
 export async function createOrder(
   items: { productId: string; quantity: number }[],
@@ -22,6 +23,14 @@ export async function createOrder(
     quantity: item.quantity,
   }));
 
-  return await db.insert(orderItems).values(itemsToInsert).returning()
+  return await db.insert(orderItems).values(itemsToInsert).returning();
+}
+
+export async function getMyOrders() {
+    const userConnected = await getCurrentUser()
+    if(!userConnected) {
+        throw new Error("you are not allowed to get your order")
+    }
+        return await db.select().from(orders).where(eq(orders.userId, userConnected.id))
 
 }
