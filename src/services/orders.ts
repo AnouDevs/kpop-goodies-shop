@@ -41,3 +41,20 @@ export async function getAllOrders() {
   await requireAdmin();
   return await db.select().from(orders);
 }
+
+export async function cancelOrder(orderId: string) {
+  const userConnected = await getCurrentUser();
+  const [myOrder] = await db
+    .select()
+    .from(orders)
+    .where(eq(orders.orderId, orderId));
+
+  if (!userConnected) {
+    throw new Error("you are not allowed to cancel an order");
+  }
+
+  if (myOrder.userId === userConnected.id && myOrder.status !== "expedited") {
+    return await db.delete(orders).where(eq(orders.orderId, orderId));
+  }
+  throw new Error("you cannot cancel this order");
+}
