@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createProduct, updateProduct } from "./products";
+import { createProduct, deleteProduct, updateProduct } from "./products";
 import { auth } from "@/lib/auth";
 
 vi.mock("next/headers", () => ({
@@ -55,6 +55,24 @@ describe("updateProduct", () => {
       user: { role: "client" },
     } as any);
     await expect(updateProduct(fakeProductId, fakeProduct)).rejects.toThrow(
+      "Insufficient permissions",
+    );
+  });
+});
+
+describe("deleteProduct", () => {
+  it("throws an error when you are not connected", async () => {
+    vi.mocked(auth.api.getSession).mockResolvedValue(null);
+    await expect(deleteProduct(fakeProductId)).rejects.toThrow(
+      "Not authenticated",
+    );
+  });
+
+  it("throws an error when user is not admin", async () => {
+    vi.mocked(auth.api.getSession).mockResolvedValue({
+      user: { role: "client" },
+    } as any);
+    await expect(deleteProduct(fakeProductId)).rejects.toThrow(
       "Insufficient permissions",
     );
   });
