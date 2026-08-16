@@ -36,4 +36,20 @@ describe("requireAdmin", () => {
     // qu'on vient de configurer), et on vérifie qu'elle lance bien une erreur
     // avec exactement le message "Not authenticated"
   });
+
+  it("throws an error when user is not admin", async () => {
+    vi.mocked(auth.api.getSession).mockResolvedValue({
+      user: { role: "client" },
+    } as any);
+    await expect(requireAdmin()).rejects.toThrow("Insufficient permissions");
+  });
+
+  it("returns the user when they are admin", async () => {
+    const mockUser = { id: "123", role: "admin" };
+    vi.mocked(auth.api.getSession).mockResolvedValue({ user: mockUser } as any);
+
+    const result = await requireAdmin();
+
+    expect(result).toEqual(mockUser);
+  });
 });
