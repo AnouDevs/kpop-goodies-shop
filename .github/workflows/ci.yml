@@ -18,3 +18,5 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm test:run
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
