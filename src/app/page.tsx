@@ -1,4 +1,5 @@
 import { getProducts } from "@/services/products";
+import { OrderButton } from "@/components/order-button";
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -12,6 +13,9 @@ export default async function HomePage() {
             <h2 className="font-semibold">{product.name}</h2>
             <p className="text-sm text-gray-500">{product.description}</p>
             <p className="mt-2">{(product.price / 100).toFixed(2)}€</p>
+            <div className="mt-2">
+              <OrderButton productId={product.productId} />
+            </div>
           </div>
         ))}
       </div>
