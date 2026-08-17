@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getMyOrders } from "@/services/orders";
 
 export default async function OrdersPage() {
@@ -5,6 +6,9 @@ export default async function OrdersPage() {
 
   return (
     <div className="p-8">
+      <Link href="/" className="text-sm text-blue-600 underline mb-6 inline-block">
+        ← Back to Catalog
+      </Link>
       <h1 className="text-2xl font-bold mb-6">My Orders</h1>
       <div className="space-y-4">
         {orders.map((order) => (

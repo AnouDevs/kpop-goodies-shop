@@ -8,19 +8,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  async function handleSignIn() {
-    await authClient.signIn.email({ email, password });
+  async function handleSignUp() {
+    await authClient.signUp.email({ email, password, name: email });
     router.push("/");
   }
 
   return (
     <div className="p-8 max-w-sm mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Login</h1>
+      <h1 className="text-2xl font-bold mb-6">Sign up</h1>
       <div className="space-y-4">
         <div>
           <Label htmlFor="email">Email</Label>
@@ -30,11 +30,11 @@ export default function LoginPage() {
           <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <Button onClick={handleSignIn} className="w-full">Sign in</Button>
+        <Button onClick={handleSignUp} className="w-full">Create account</Button>
         <p className="text-sm text-gray-600">
-          No account?{" "}
-          <Link href="/signup" className="text-blue-600 underline">
-            Sign up
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-600 underline">
+            Login
           </Link>
         </p>
       </div>
